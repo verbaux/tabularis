@@ -4,7 +4,8 @@ name: Nightly
 # (nightly-<date>-<sha>) rather than one rolling release, so a follow-up PR can
 # surface them as a selectable "nightly" release channel in the updater.
 #
-# A build happens only when BOTH hold:
+# A build happens only when ALL hold:
+#   * the workflow runs in the canonical repository (not a fork),
 #   * a commit on main passed the `CI` workflow, and
 #   * that green commit hasn't already been shipped as a nightly.
 # We build the last GREEN commit (not necessarily main's tip), so a failing or
@@ -22,6 +23,7 @@ concurrency:
 
 jobs:
   gate:
+    if: github.repository == 'TabularisDB/tabularis'
     runs-on: ubuntu-latest
     permissions:
       contents: read
